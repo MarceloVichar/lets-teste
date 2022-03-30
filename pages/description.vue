@@ -1,7 +1,7 @@
 <template>
 <main class="flex flex-col items-center gap-12 min-h-screen">
     <HeaderContainer />
-    <container class="w-3/4 p-2  flex flex-col bg-white rounded">
+    <div class="w-3/4 p-2  flex flex-col bg-white rounded">
       <div class="flex w-full justify-between">
         <div class="flex items-center justify-center w-2/3">
             <h1 class="text-center text-2xl ">Nome do personagem</h1>
@@ -20,7 +20,7 @@ Si u mundo tá muito paradis? Toma um mé que o mundo vai girarzis!Quem manda na
 
 Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.Delegadis gente finis, bibendum egestas augue arcu ut est.Copo furadis é disculpa de bebadis, arcu quam euismod magna.Paisis, filhis, espiritis santis.</p> 
       </div>
-    </container>
+    </div>
   </main>
 </template>
 
