@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col w-60 h-120 gap-2 border border-black rounded cardcharacter">
-    <img :src="character.thumbnail" alt="personagem" class="w-60 h-50">
-    <div class="flex h-40">
-      <h1 class="pl-2 text-left">
+    <img :src="character.thumbnail.path" alt="personagem" class="w-60 h-50">
+    <div class="flex h-12">
+      <h1 class="pl-2 text-xl text-left">
       {{character.name}}
       </h1>
     </div>

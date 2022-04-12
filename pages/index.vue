@@ -3,8 +3,9 @@
     <HeaderContainer />
     <div class="w-3/4  flex flex-col  items-center gap-6 p-4 bg-white rounded">
       <SearchBar />
+      <input v-model="search" @keyup="updateMySearch" >
       <div class="flex flex-wrap justify-center gap-2">
-      <div v-for="character in characters">
+      <div v-for="character in charactersToExibs" v-bind:key="character.id">
         <CardCharacter :character="character"/>
         
       </div>
@@ -17,34 +18,49 @@
 </template>
 
 <script>
-/*import Vue from 'vue'
-
-
-export default Vue.extend({
-  name: 'IndexPage'
-})
-*/
 import Character from '../services/api.ts'
 
 export default {
+  
   data(){
     return {
-      characters: []
-    }
+      characters: [],
+      positionCharacter: 1,
+      search: '',
+      charactersToExibs: []    }
   },
-  
+
   mounted() {
-    Character.list({limit:6, offset: 1}).then(res => {
-      this.characters = res.data.results
-    })
+    this.callToApi()
   },
 
 methods: {
+  callToApi(howMuch = 6) {
+    let params = {
+      offset: this.positionCharacter,
+      
+    }
+    Character.list({offset: this.positionCharacter}).then(res => {
+      this.characters = [...this.characters, ...res.data.results]
+      this.charactersToExibs = this.characters
+    })
+    this.positionCharacter = this.positionCharacter + 6
+  },
+  
   appendNextPage() {
+    this.callToApi()
+  },
+  updateMySearch() {
+    console.log(this.characters)
+    this.charactersToExibs = this.characters.filter(character => {
+      return character.name.toLowerCase().includes(this.search.toLowerCase())
+    })
+      
     
   }
 }
 }
+
   
 </script>
 
