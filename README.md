@@ -1,22 +1,22 @@
 # Marvel API
 
-## Site desenvolvido como teste de código
+## Website developed as a code test
 
 
-## Segue abaixo as instruções para rodar o projeto localmente
+## Below are the instructions to run the project locally
 
 ```md
-# Clonar o projeto (use Ctrl + Shift + V no terminal)
+# Clone the project (use Ctrl + Shift + V in terminal)
 $ https://github.com/MarceloVichar/lets-teste.git
 
-# Instalar dependências
+# Install dependences
 $ yarn 
 
-# Rodar o projeto usando a localhost:3000
+# Run the project using the localhost:3000 port
 $ yarn dev
 ```
 
-## Link para a documentação da API Marvel completa
+## Link for the full Marvel API documentation
 ```md
 https://developer.marvel.com/docs
 ```
