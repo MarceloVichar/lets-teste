@@ -14,7 +14,7 @@ export default {
   methods: {
     submit() {
       this.$router.push({
-        path: `/index`
+        path: '/'
       })
     }
   }
