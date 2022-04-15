@@ -14,6 +14,10 @@ module.exports = {
             emerald: colors.emerald,
             indigo: colors.indigo,
             yellow: colors.yellow,
+            red: {
+                500: '#ab1202',
+                750: '#61150e'
+            } 
         },
     },
     variants: {

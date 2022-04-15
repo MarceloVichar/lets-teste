@@ -15,8 +15,10 @@ interface list {
 
 export default {
     list:(params: list) => {
-        console.log(params)
         return http.get('characters', {params}).then(res => res.data )
-}
+},
+    get(id: string) {
+        return http.get(`characters/${id}`)
+    }
 }
 //const apiKey = '198de2a64847913fc77d58fd589a08b4';
