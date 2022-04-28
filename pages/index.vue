@@ -1,53 +1,11 @@
 <template>
-  <main class="flex flex-col items-center gap-12 min-h-screen bg-red-750">
-    <HeaderContainer />
-    <div class="w-3/4 flex flex-col items-center gap-6 p-4 bg-white rounded">
-      <div
-        class="
-          border border-solid border-black
-          rounded
-          w-50
-          md:w-80
-          h-12
-          flex
-          items-center
-          gap-4
-          p-4
-          bg-white
-        "
-      >
-        <link
-          rel="stylesheet"
-          href="https://www.w3schools.com/w3css/4/w3.css"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        />
-
-        <i class="fa fa-search" />
-        <input
-          type="text"
-          placeholder="Search a character"
-          class="w-full outline-none"
-          @input="debounceSearch"
-        />
-      </div>
-      <!-- <input  /> -->
-      <div class="flex flex-wrap justify-center gap-2">
-        <div v-for="character in characters" v-bind:key="character.id">
-          <CardCharacter :character="character" />
-        </div>
-      </div>
-    </div>
-    <button
-      @click.prevent="appendNextPage"
-      type="button"
-      class="p-4 rounded text-white mb-10 bg-red-500"
-    >
-      See more results
-    </button>
-  </main>
+  <div>
+    <CardList
+      :characters-list="characters"
+      @onLoadMore="appendNextPage"
+      @onSearch="(searchText) => debounceSearch(searchText)"
+    />
+  </div>
 </template>
 
 <script>
@@ -82,10 +40,10 @@ export default {
       });
       this.positionCharacter = this.positionCharacter + 20;
     },
-    debounceSearch(event) {
+    debounceSearch(text) {
       clearTimeout(this.debounce);
       this.debounce = setTimeout(() => {
-        this.search = event.target.value;
+        this.search = text;
         this.updateMySearch();
       }, 600);
     },
