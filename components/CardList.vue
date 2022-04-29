@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto flex flex-col gap-4">
+  <div class="mx-auto w-full flex flex-col gap-4">
     <CardCharacterContainer
       :characters-list="charactersList"
       @onSearch="$emit('onSearch', $event)"

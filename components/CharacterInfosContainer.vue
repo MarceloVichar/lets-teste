@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2 flex gap-2 mb-10 mx-auto flex-col bg-white rounded">
+  <div class="p-2 w-full flex gap-2 mb-10 mx-auto flex-col bg-white rounded">
     <HeaderCharacterInfos :character-infos="characterInfos" />
     <DescriptionCharacterInfos :character-infos="characterInfos" />
     <ComicsCharacterInfos :character-infos="characterInfos" />
