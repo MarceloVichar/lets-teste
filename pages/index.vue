@@ -15,54 +15,41 @@ export default {
   data() {
     return {
       characters: [],
-      positionCharacter: 1,
-      search: "",
-      debounce: null,
+      filters: {
+        offset: 1,
+        orderBy: "name",
+      },
     };
   },
 
   mounted() {
-    this.callToApi();
+    this.fetchData();
   },
 
   methods: {
-    callToApi(shouldRemoveAll = false) {
-      let params = {
-        offset: this.positionCharacter,
-      };
-      Character.list({ offset: this.positionCharacter }).then((res) => {
-        if (shouldRemoveAll) {
-          this.characters = [];
-        }
-        this.characters = [...this.characters, ...res.data.results];
-
-        console.log(this.characters);
+    fetchData() {
+      Character.list(this.filters).then((response) => {
+        this.characters = response.code === 200 ? response?.data?.results : [];
       });
-      this.positionCharacter = this.positionCharacter + 20;
     },
+
     debounceSearch(text) {
-      clearTimeout(this.debounce);
-      this.debounce = setTimeout(() => {
-        this.search = text;
-        this.updateMySearch();
-      }, 600);
+      setTimeout(() => {
+        if (text !== "") {
+          this.filters.nameStartsWith = text;
+          this.fetchData();
+        } else {
+          delete this.filters["nameStartsWith"];
+          this.fetchData();
+        }
+      }, 300);
     },
 
     appendNextPage() {
-      this.callToApi();
-    },
-    updateMySearch() {
-      this.positionCharacter = 1;
-      if (this.search === "") {
-        this.callToApi(true);
-        return;
-      }
-
-      Character.list({
-        offset: this.positionCharacter,
-        nameStartsWith: this.search,
-      }).then((res) => {
-        this.characters = res.data.results;
+      this.filters.offset += 20;
+      Character.list(this.filters).then((response) => {
+        const data = response.code === 200 ? response?.data?.results : [];
+        this.characters = this.characters.concat(data);
       });
     },
   },
