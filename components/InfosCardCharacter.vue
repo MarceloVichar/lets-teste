@@ -12,11 +12,6 @@
         {{ character.name }}
       </h1>
     </div>
-    <p
-      class="overflow-hidden relative h-20 text-justify p-2 before:content-['...'] before:absolute before:right-0 before:bottom-0 before:pl-1"
-    >
-      {{ character.description }}
-    </p>
   </div>
 </template>
 
