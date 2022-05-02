@@ -1,6 +1,6 @@
 <template>
   <div class="w-3/4">
-    <CharacterInfosContainer :character-infos="character" />
+    <CharacterInfosContainer :character-infos="character" :loading="loading" />
   </div>
 </template>
 
@@ -22,9 +22,11 @@ export default Vue.extend({
       .catch((error) => {
         this.$router.push({ path: "/404" });
       });
+    this.debouncePage();
   },
   data() {
     return {
+      loading: false,
       character: {
         name: "",
         comics: {
@@ -39,6 +41,14 @@ export default Vue.extend({
         },
       },
     };
+  },
+  methods: {
+    debouncePage() {
+      this.loading = !false;
+      setTimeout(() => {
+        this.loading = !true;
+      }, 1000);
+    },
   },
 });
 </script>

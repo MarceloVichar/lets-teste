@@ -1,6 +1,7 @@
 <template>
-  <div class="mx-auto w-full flex flex-col gap-4">
+  <div class="w-full mx-auto flex flex-col gap-4">
     <CardCharacterContainer
+      :loading="loading"
       :characters-list="charactersList"
       @onSearch="$emit('onSearch', $event)"
     />
@@ -11,6 +12,6 @@
 <script>
 export default {
   name: "CardList",
-  props: ["charactersList"],
+  props: ["charactersList", "loading"],
 };
 </script>

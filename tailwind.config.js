@@ -1,6 +1,7 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
+    important: true,
     purge: [],
     darkMode: false, // or 'media' or 'class'
     theme: {
@@ -17,7 +18,7 @@ module.exports = {
             red: {
                 500: '#ab1202',
                 750: '#61150e'
-            } 
+            }
         },
     },
     variants: {

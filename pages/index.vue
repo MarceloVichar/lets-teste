@@ -1,6 +1,7 @@
 <template>
-  <div class="W-3/4">
+  <div class="w-3/4">
     <CardList
+      :loading="loading"
       :characters-list="characters"
       @onLoadMore="appendNextPage"
       @onSearch="(searchText) => debounceSearch(searchText)"
@@ -14,6 +15,7 @@ import Character from "../services/api.ts";
 export default {
   data() {
     return {
+      loading: false,
       characters: [],
       filters: {
         offset: 0,
@@ -24,6 +26,7 @@ export default {
 
   mounted() {
     this.fetchData();
+    this.debouncePage();
   },
 
   methods: {
@@ -31,6 +34,13 @@ export default {
       Character.list(this.filters).then((response) => {
         this.characters = response.code === 200 ? response?.data?.results : [];
       });
+    },
+
+    debouncePage() {
+      this.loading = !false;
+      setTimeout(() => {
+        this.loading = !true;
+      }, 1000);
     },
 
     debounceSearch(text) {
