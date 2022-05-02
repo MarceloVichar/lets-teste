@@ -4,7 +4,7 @@
       <img
         :src="character.thumbnail.path + '.' + character.thumbnail.extension"
         alt="personagem"
-        class="object-none h-48 w-96 rounded-lg"
+        class="h-48 w-96 rounded-lg"
       />
     </div>
     <div class="flex h-12">

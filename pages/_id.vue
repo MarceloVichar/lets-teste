@@ -44,9 +44,9 @@ export default Vue.extend({
   },
   methods: {
     debouncePage() {
-      this.loading = !false;
+      this.loading = true;
       setTimeout(() => {
-        this.loading = !true;
+        this.loading = false;
       }, 1000);
     },
   },
