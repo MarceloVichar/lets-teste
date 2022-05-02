@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="W-3/4">
     <CardList
       :characters-list="characters"
       @onLoadMore="appendNextPage"

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-3/4">
     <CharacterInfosContainer :character-infos="character" />
   </div>
 </template>
@@ -14,7 +14,6 @@ export default Vue.extend({
     let id = this.$route.params.id;
     Character.get(id).then((res) => {
       this.character = res.data.data.results[0];
-      console.log(this.character);
     });
   },
   data() {
