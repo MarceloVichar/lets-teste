@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Character from "../../services/api";
+import Character from "../services/api";
 
 export default Vue.extend({
   name: "description",

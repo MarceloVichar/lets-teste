@@ -17,7 +17,7 @@ export default {
   methods: {
     submit(characterId) {
       this.$router.push({
-        path: `/description/${characterId}`,
+        path: `/${characterId}`,
       });
     },
   },
