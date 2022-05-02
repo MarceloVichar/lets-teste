@@ -16,7 +16,7 @@ export default {
     return {
       characters: [],
       filters: {
-        offset: 1,
+        offset: 0,
         orderBy: "name",
       },
     };
@@ -34,6 +34,7 @@ export default {
     },
 
     debounceSearch(text) {
+      this.filters.offset = 0;
       setTimeout(() => {
         if (text !== "") {
           this.filters.nameStartsWith = text;
