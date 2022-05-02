@@ -10,11 +10,18 @@ import Character from "../../services/api";
 
 export default Vue.extend({
   name: "description",
-  created() {
-    let id = this.$route.params.id;
-    Character.get(id).then((res) => {
-      this.character = res.data.data.results[0];
-    });
+  mounted() {
+    const id = this.$route.params?.id;
+    Character.get(id)
+      .then((res) => {
+        this.character = res.data?.data?.results[0];
+        if (this.character && this.character?.name === "") {
+          this.$router.push({ path: "/404" });
+        }
+      })
+      .catch((error) => {
+        this.$router.push({ path: "/404" });
+      });
   },
   data() {
     return {
