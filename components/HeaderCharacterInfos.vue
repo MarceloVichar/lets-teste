@@ -17,7 +17,7 @@
           characterInfos.thumbnail.extension
         "
         alt="img personagem"
-        class="h-60 w-96 rounded-lg"
+        class="w-96 rounded-lg"
       />
     </div>
   </div>

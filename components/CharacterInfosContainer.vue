@@ -1,7 +1,7 @@
 <template>
-  <div class="p-2 w-full flex gap-2 mb-10 mx-auto flex-col bg-white rounded">
+  <div class="p-2 w-full flex mb-10 mx-auto flex-col bg-white rounded">
     <Spinner v-if="loading" />
-    <div v-if="!loading">
+    <div class="flex flex-col gap-2" v-if="!loading">
       <HeaderCharacterInfos :character-infos="characterInfos" />
       <DescriptionCharacterInfos :character-infos="characterInfos" />
       <ComicsCharacterInfos :character-infos="characterInfos" />

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-3/4">
+  <div class="w-11/12 sm:w-3/4">
     <CharacterInfosContainer :character-infos="character" :loading="loading" />
   </div>
 </template>
