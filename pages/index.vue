@@ -1,10 +1,10 @@
 <template>
-  <div class="w-3/4">
+  <div class="w-11/12 sm:w-3/4">
     <CardList
       :loading="loading"
       :characters-list="characters"
       @onLoadMore="appendNextPage"
-      @onSearch="(searchText) => debounceSearch(searchText)"
+      @onSearch="debounceSearch"
     />
   </div>
 </template>
@@ -19,6 +19,7 @@ export default {
       characters: [],
       filters: {
         offset: 0,
+        limit: 12,
         orderBy: "name",
       },
     };
@@ -57,7 +58,7 @@ export default {
     },
 
     appendNextPage() {
-      this.filters.offset += 20;
+      this.filters.offset += 12;
       Character.list(this.filters).then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
         this.characters = this.characters.concat(data);
