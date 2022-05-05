@@ -1,5 +1,5 @@
 <template>
-  <div class="w-11/12 sm:w-3/4">
+  <div class="container">
     <CardList
       :loading="loading"
       :characters-list="characters"
@@ -11,6 +11,7 @@
 
 <script>
 import Character from "../services/api.ts";
+import _ from 'lodash'
 
 export default {
   data() {
@@ -27,34 +28,14 @@ export default {
 
   mounted() {
     this.fetchData();
-    this.debouncePage();
   },
 
   methods: {
     fetchData() {
+      this.loading = true;
       Character.list(this.filters).then((response) => {
         this.characters = response.code === 200 ? response?.data?.results : [];
-      });
-    },
-
-    debouncePage() {
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
-    },
-
-    debounceSearch(text) {
-      this.filters.offset = 0;
-      setTimeout(() => {
-        if (text !== "") {
-          this.filters.nameStartsWith = text;
-          this.fetchData();
-        } else {
-          delete this.filters["nameStartsWith"];
-          this.fetchData();
-        }
-      }, 300);
+      }).finally(() => {this.loading = false});
     },
 
     appendNextPage() {
@@ -64,6 +45,18 @@ export default {
         this.characters = this.characters.concat(data);
       });
     },
+    debounceSearch: _.debounce(function (e) {
+      this.filters.offset = 0;
+        if (e !== "") {
+          this.filters.nameStartsWith = e;
+          this.fetchData();
+          
+        } else {
+          delete this.filters["nameStartsWith"];
+          this.fetchData();
+        }
+    },500)    
+  
   },
 };
 </script>

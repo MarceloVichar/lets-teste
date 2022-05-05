@@ -1,5 +1,5 @@
 <template>
-  <div class="w-11/12 sm:w-3/4">
+  <div class="container">
     <CharacterInfosContainer :character-infos="character" :loading="loading" />
   </div>
 </template>
@@ -12,6 +12,7 @@ export default Vue.extend({
   name: "description",
   mounted() {
     const id = this.$route.params?.id;
+    this.loading = true
     Character.get(id)
       .then((res) => {
         this.character = res.data?.data?.results[0];
@@ -21,8 +22,9 @@ export default Vue.extend({
       })
       .catch((error) => {
         this.$router.push({ path: "/404" });
-      });
-    this.debouncePage();
+      })
+      .finally(() => {this.loading = false});
+    
   },
   data() {
     return {
@@ -41,14 +43,6 @@ export default Vue.extend({
         },
       },
     };
-  },
-  methods: {
-    debouncePage() {
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
-    },
   },
 });
 </script>

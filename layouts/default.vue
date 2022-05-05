@@ -1,7 +1,7 @@
 <template>
   <main class="flex flex-col items-center gap-12 min-h-screen bg-red-750">
     <HeaderContainer />
-    <Nuxt />
+    <Nuxt keep-alive />
   </main>
 </template>
 
