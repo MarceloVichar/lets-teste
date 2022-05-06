@@ -1,7 +1,7 @@
 <template>
-  <div class="w-3/4">
-    <ErrorContainer />
-  </div>
+    <div class="container">
+      <ErrorContainer />
+    </div>
 </template>
 
 <script>
