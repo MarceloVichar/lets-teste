@@ -59,6 +59,7 @@ export default {
     },
     debounceSearch: _.debounce(function (e) {
       this.filters.offset = 0;
+      this.loading = true
         if (e !== "") {
           this.filters.nameStartsWith = e;
           this.fetchData();
