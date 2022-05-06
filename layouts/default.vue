@@ -6,7 +6,10 @@
 </template>
 
 <script>
+import HeaderContainer from '@/components/headerContainer/HeaderContainer.vue'
+
 export default {
+  components: { HeaderContainer },
   head() {
     return {
       link: [

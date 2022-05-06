@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="w-fit container">
     <CardList
       :isLastPage="isLastPage"
       :loading="loading"
@@ -11,14 +11,16 @@
 </template>
 
 <script>
-import Character from "../services/api.ts";
+import Character from "@/services/api.ts";
+import CardList from '@/components/dashboard/CardList.vue'
 import _ from 'lodash'
 
 export default {
+  components: {CardList},
   data() {
     return {
-      isLastPage: false,
-      totalCharacters: - 0,
+      isLastPage: true,
+      totalCharacters: 0,
       loading: true,
       characters: [],
       filters: {

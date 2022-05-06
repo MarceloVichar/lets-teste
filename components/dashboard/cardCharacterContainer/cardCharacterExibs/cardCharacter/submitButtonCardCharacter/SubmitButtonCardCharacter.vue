@@ -1,11 +1,13 @@
 <template>
-  <button
+  <div class=" border mb-2 h-12 rounded-md w-3/4 text-white bg-red-500 hover:opacity-80 hover:shadow-md flex justify-center items-center transition duration-300 ease-in-out">
+    <button
+    class="w-full h-full"
     type="submit"
     v-on:click="submit(character.id)"
-    class="border mb-2 h-12 rounded-md text-white bg-red-500"
   >
     More information
   </button>
+  </div>
 </template>
 
 <script>

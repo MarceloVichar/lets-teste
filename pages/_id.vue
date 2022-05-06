@@ -6,9 +6,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Character from "../services/api";
+import Character from "@/services/api";
+import CharacterInfosContainer from '@/components/character/CharacterInfosContainer.vue'
 
 export default Vue.extend({
+  components: { CharacterInfosContainer },
   name: "description",
   mounted() {
     const id = this.$route.params?.id;

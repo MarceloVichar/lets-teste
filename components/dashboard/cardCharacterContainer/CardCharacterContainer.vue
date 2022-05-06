@@ -10,7 +10,12 @@
 </template>
 
 <script>
+import Spinner from '@/components/spinner/Spinner.vue'
+import InputSearchCharacters from '@/components/dashboard/cardCharacterContainer/inputSearch/InputSearchCharacters.vue'
+import CardsCharacterExibs from '@/components/dashboard/cardCharacterContainer/cardCharacterExibs/CardsCharacterExibs.vue'
+
 export default {
+  components: { Spinner, InputSearchCharacters, CardsCharacterExibs },
   name: "CardCharacterContainer",
   props: ["charactersList", "loading"],
 };

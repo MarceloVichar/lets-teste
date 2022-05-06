@@ -4,7 +4,7 @@
   >
     <div class="flex md:justify-start flex-justify-center">
       <img
-        src="../static/assets/hulk.jpg"
+        src="@/static/assets/hulk.jpg"
         alt="Erro 404"
         class="w-100 h-60 rounded"
       />

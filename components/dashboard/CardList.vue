@@ -10,7 +10,11 @@
 </template>
 
 <script>
+import CardCharacterContainer from '@/components/dashboard/cardCharacterContainer/CardCharacterContainer.vue'
+import ButtonSeeMoreCharacters from '@/components/dashboard/buttonSeeMoreCharacters/ButtonSeeMoreCharacters.vue'
+
 export default {
+  components: { CardCharacterContainer, ButtonSeeMoreCharacters },
   name: "CardList",
   props: ["charactersList", "loading", "isLastPage"],
 };
