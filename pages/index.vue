@@ -39,9 +39,10 @@ export default {
     fetchData() {
       this.loading = true;
       Character.list(this.filters).then((response) => {
-        if(response.code === 200) {}
-        this.characters = response?.data?.results
-        this.totalCharacters = response?.data?.total
+        if(response.code === 200) {
+          this.characters = response?.data?.results
+          this.totalCharacters = response?.data?.total
+        } else this.characters = []  
       }).finally(() => {
           this.loading = false
           this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
