@@ -22,26 +22,16 @@ export default {
   },
   watch: {
     query(payload) {
-      this.reloadParamsUrl(payload)
       this.$emit('onSearch', payload)
+      this.$router.replace({ query: { query: payload } }).catch(err => {})
     }
   },
   mounted() {
     this.setParamsUrl()
   },
   methods: {
-    // reloadParamsUrl(payload) {
-    //   let url = new URL(window.location.href);
-    //   let search_params = url.searchParams;
-    //   search_params.append('query', payload);
-    //   url.search = search_params.toString();
-    //   let new_url = url.toString();
-    //   console.log(new_url);
-    // },
     setParamsUrl() {
-      let url = new URL(window.location.href);
-      let params = new URLSearchParams(url.search);
-      this.query = params.get("query") || '';
+      this.query = this.$route.query?.query
     }
   }
 };
