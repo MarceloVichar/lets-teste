@@ -1,6 +1,7 @@
 <template>
-  <div class="w-11/12 sm:w-3/4">
+  <div class="w-fit container">
     <CardList
+      :isLastPage="isLastPage"
       :loading="loading"
       :characters-list="characters"
       @onLoadMore="appendNextPage"
@@ -10,12 +11,17 @@
 </template>
 
 <script>
-import Character from "../services/api.ts";
+import Character from "@/services/api.ts";
+import CardList from '@/components/dashboard/CardList.vue'
+import _ from 'lodash'
 
 export default {
+  components: {CardList},
   data() {
     return {
-      loading: false,
+      isLastPage: true,
+      totalCharacters: 0,
+      loading: true,
       characters: [],
       filters: {
         offset: 0,
@@ -27,34 +33,20 @@ export default {
 
   mounted() {
     this.fetchData();
-    this.debouncePage();
   },
 
   methods: {
     fetchData() {
-      Character.list(this.filters).then((response) => {
-        this.characters = response.code === 200 ? response?.data?.results : [];
-      });
-    },
-
-    debouncePage() {
       this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
-    },
-
-    debounceSearch(text) {
-      this.filters.offset = 0;
-      setTimeout(() => {
-        if (text !== "") {
-          this.filters.nameStartsWith = text;
-          this.fetchData();
-        } else {
-          delete this.filters["nameStartsWith"];
-          this.fetchData();
-        }
-      }, 300);
+      Character.list(this.filters).then((response) => {
+        if(response.code === 200) {
+          this.characters = response?.data?.results
+          this.totalCharacters = response?.data?.total
+        } else this.characters = []  
+      }).finally(() => {
+          this.loading = false
+          this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
+        });
     },
 
     appendNextPage() {
@@ -62,8 +54,21 @@ export default {
       Character.list(this.filters).then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
         this.characters = this.characters.concat(data);
+        this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
       });
     },
+    debounceSearch: _.debounce(function (e) {
+      this.filters.offset = 0;
+      this.loading = true
+        if (e !== "") {
+          this.filters.nameStartsWith = e;
+          this.fetchData();
+          
+        } else {
+          delete this.filters["nameStartsWith"];
+          this.fetchData();
+        }
+    },500),    
   },
 };
 </script>

@@ -11,9 +11,13 @@
 </template>
 
 <script>
-import Vue from "vue";
+import HeaderCharacterInfos from '@/components/character/contentContainer/HeaderCharacterInfos.vue'
+import DescriptionCharacterInfos from '@/components/character/contentContainer/DescriptionCharacterInfos.vue'
+import ComicsCharacterInfos from '@/components/character/contentContainer/ComicsCharacterInfos.vue'
+import SeriesCharacterInfos from '@/components/character/contentContainer/SeriesCharacterInfos.vue'
 
 export default {
+  components: { HeaderCharacterInfos, DescriptionCharacterInfos, ComicsCharacterInfos, SeriesCharacterInfos },
   name: "CharacterInfosContainer",
   props: ["characterInfos", "loading"],
 };
