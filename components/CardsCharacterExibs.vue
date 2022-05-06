@@ -4,7 +4,6 @@
         <CardCharacter :character="character" />
       </div>
     </div>
-  </div>
 </template>
 
 <script>

@@ -4,7 +4,7 @@
     v-on:click="submit(character.id)"
     class="border mb-2 h-12 rounded-md text-white bg-red-500"
   >
-    More informations
+    More information
   </button>
 </template>
 

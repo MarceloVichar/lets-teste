@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full flex flex-col items-center mx-auto gap-6 p-4 bg-white rounded"
+    class="w-full flex flex-col items-center mx-auto gap-6 p-4 bg-white rounded mb-4"
   >
     <InputSearchCharacters @onSearch="$emit('onSearch', $event)" />
 

@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <CardList
+      :isLastPage="isLastPage"
       :loading="loading"
       :characters-list="characters"
       @onLoadMore="appendNextPage"
@@ -16,7 +17,9 @@ import _ from 'lodash'
 export default {
   data() {
     return {
-      loading: false,
+      isLastPage: false,
+      totalCharacters: - 0,
+      loading: true,
       characters: [],
       filters: {
         offset: 0,
@@ -34,8 +37,13 @@ export default {
     fetchData() {
       this.loading = true;
       Character.list(this.filters).then((response) => {
-        this.characters = response.code === 200 ? response?.data?.results : [];
-      }).finally(() => {this.loading = false});
+        if(response.code === 200) {}
+        this.characters = response?.data?.results
+        this.totalCharacters = response?.data?.total
+      }).finally(() => {
+          this.loading = false
+          this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
+        });
     },
 
     appendNextPage() {
@@ -43,6 +51,7 @@ export default {
       Character.list(this.filters).then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
         this.characters = this.characters.concat(data);
+        this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
       });
     },
     debounceSearch: _.debounce(function (e) {
@@ -55,8 +64,7 @@ export default {
           delete this.filters["nameStartsWith"];
           this.fetchData();
         }
-    },500)    
-  
+    },500),    
   },
 };
 </script>
