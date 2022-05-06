@@ -63,7 +63,6 @@ export default {
         if (e !== "") {
           this.filters.nameStartsWith = e;
           this.fetchData();
-          
         } else {
           delete this.filters["nameStartsWith"];
           this.fetchData();

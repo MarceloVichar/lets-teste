@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="p-4 rounded text-white mb-10 bg-red-500 mx-auto"
+    class="p-4 rounded text-white mb-10 bg-red-500 mx-auto hover:opacity-80"
     @click.prevent="$emit('onLoadMore')"
   >
     See more results
