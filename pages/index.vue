@@ -30,35 +30,34 @@ export default {
       },
     };
   },
-  // async fetch() {
-  //     this.loading = true;
-  //     await fetch(Character.list(this.filters).then((response) => {
-  //       if(response.code === 200) {
-  //         this.characters = response?.data?.results
-  //         this.totalCharacters = response?.data?.total
-  //       } else characters = []  
-  //     }).finally(() => {
-  //         console.log(this.characters, this.totalCharacters)
-  //         this.loading = false
-  //         this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
-  //       }))
-  //   },
-  mounted() {
-    this.fetchData()
-  },
-  methods: {
-    fetchData() {
+  async fetch() {
       if(this.filters.offset === 0) { this.loading = true }
-      Character.list(this.filters).then((response) => {
-          const data = response.code === 200 ? response?.data?.results : [];
-          if(this.filters.offset === 0) { this.characters = [] }
-          this.characters = this.characters.concat(data);
-          this.totalCharacters = response?.data?.total
+      await fetch(Character.list(this.filters).then((response) => {
+        const data = response.code === 200 ? response?.data?.results : [];
+        if(this.filters.offset === 0) { this.characters = [] }
+        this.characters = this.characters.concat(data);
+        this.totalCharacters = response?.data?.total  
       }).finally(() => {
           this.loading = false
           this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
-        })
+        }))
     },
+  // mounted() {
+  //   this.fetchData()
+  // },
+  methods: {
+    // fetchData() {
+    //   if(this.filters.offset === 0) { this.loading = true }
+    //   Character.list(this.filters).then((response) => {
+    //       const data = response.code === 200 ? response?.data?.results : [];
+    //       if(this.filters.offset === 0) { this.characters = [] }
+    //       this.characters = this.characters.concat(data);
+    //       this.totalCharacters = response?.data?.total
+    //   }).finally(() => {
+    //       this.loading = false
+    //       this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
+    //     })
+    // },
 
     appendNextPage() {
       this.filters.offset += 20;
