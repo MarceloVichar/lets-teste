@@ -1,5 +1,5 @@
 <template>
-    <div class="flex w-full flex-wrap md:justify-start justify-center gap-1">
+    <div class="flex w-full flex-wrap md:justify-start justify-center gap-2">
       <div v-for="character in charactersList" v-bind:key="character.id">
         <CardCharacter :character="character" />
       </div>

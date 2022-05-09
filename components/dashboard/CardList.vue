@@ -5,7 +5,7 @@
       :characters-list="charactersList"
       @onSearch="$emit('onSearch', $event)"
     />
-    <ButtonSeeMoreCharacters v-show="!isLastPage" @onLoadMore="$emit('onLoadMore')" />
+    <ButtonSeeMoreCharacters v-if="!isLastPage" @onLoadMore="$emit('onLoadMore')" />
   </div>
 </template>
 

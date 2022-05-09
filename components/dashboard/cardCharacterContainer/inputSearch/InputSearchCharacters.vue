@@ -4,7 +4,7 @@
   >
     <i class="fa fa-search" />
     <input
-      @input="$emit('onSearch', $event.target.value)"
+      v-model="query"
       type="text"
       placeholder="Search a character"
       class="w-full outline-none"
@@ -15,5 +15,24 @@
 <script>
 export default {
   name: "InputSearchCharacters",
+  data() {
+    return {
+      query: ''
+    }
+  },
+  watch: {
+    query(payload) {
+      this.$emit('onSearch', payload)
+      this.$router.replace({ query: { query: payload } }).catch(err => {})
+    }
+  },
+  mounted() {
+    this.setParamsUrl()
+  },
+  methods: {
+    setParamsUrl() {
+      this.query = this.$route.query?.query
+    }
+  }
 };
 </script>
