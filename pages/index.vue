@@ -25,7 +25,7 @@ export default {
       characters: [],
       filters: {
         offset: 0,
-        limit: 12,
+        limit: 20,
         orderBy: "name",
       },
     };
@@ -50,7 +50,7 @@ export default {
     },
 
     appendNextPage() {
-      this.filters.offset += 12;
+      this.filters.offset += 20;
       Character.list(this.filters).then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
         this.characters = this.characters.concat(data);
