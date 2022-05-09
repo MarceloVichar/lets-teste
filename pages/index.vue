@@ -32,7 +32,7 @@ export default {
   },
   async fetch() {
       if(this.filters.offset === 0) { this.loading = true }
-      await fetch(Character.list(this.filters).then((response) => {
+      await(Character.list(this.filters).then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
         if(this.filters.offset === 0) { this.characters = [] }
         this.characters = this.characters.concat(data);
@@ -42,36 +42,21 @@ export default {
           this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
         }))
     },
-  // mounted() {
-  //   this.fetchData()
-  // },
   methods: {
-    // fetchData() {
-    //   if(this.filters.offset === 0) { this.loading = true }
-    //   Character.list(this.filters).then((response) => {
-    //       const data = response.code === 200 ? response?.data?.results : [];
-    //       if(this.filters.offset === 0) { this.characters = [] }
-    //       this.characters = this.characters.concat(data);
-    //       this.totalCharacters = response?.data?.total
-    //   }).finally(() => {
-    //       this.loading = false
-    //       this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
-    //     })
-    // },
 
     appendNextPage() {
       this.filters.offset += 20;
-      this.fetchData()
+      this.$fetch()
     },
 
     debounceSearch: _.debounce(function (e) {
       this.filters.offset = 0;
         if (e !== "") {
           this.filters.nameStartsWith = e;
-          this.fetchData()
+          this.$fetch()
         } else {
           delete this.filters["nameStartsWith"];
-          this.fetchData()
+          this.$fetch()
         }
     },500),    
   },
