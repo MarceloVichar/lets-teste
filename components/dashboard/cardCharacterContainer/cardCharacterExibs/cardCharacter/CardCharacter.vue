@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="`/characterInfos/${character.id}`" >
+  <nuxt-link :to="`/characters/${character.id}`" >
     <div
     class="card cursor-pointer flex flex-col items-center w-60 h-120 gap-4 cardcharacter rounded-lg overflow-hidden p-2 shadow-md border border-slate-100"
   >

@@ -19,10 +19,10 @@ export default {
   components: {CardList},
   data() {
     return {
-      isLastPage: true,
-      totalCharacters: 0,
-      loading: true,
       characters: [],
+      totalCharacters: 0,
+      isLastPage: true,
+      loading: true,
       filters: {
         offset: 0,
         limit: 20,
@@ -30,42 +30,49 @@ export default {
       },
     };
   },
-
+  // async fetch() {
+  //     this.loading = true;
+  //     await fetch(Character.list(this.filters).then((response) => {
+  //       if(response.code === 200) {
+  //         this.characters = response?.data?.results
+  //         this.totalCharacters = response?.data?.total
+  //       } else characters = []  
+  //     }).finally(() => {
+  //         console.log(this.characters, this.totalCharacters)
+  //         this.loading = false
+  //         this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
+  //       }))
+  //   },
   mounted() {
-    this.fetchData();
+    this.fetchData()
   },
-
   methods: {
     fetchData() {
-      this.loading = true;
+      if(this.filters.offset === 0) { this.loading = true }
       Character.list(this.filters).then((response) => {
-        if(response.code === 200) {
-          this.characters = response?.data?.results
+          const data = response.code === 200 ? response?.data?.results : [];
+          if(this.filters.offset === 0) { this.characters = [] }
+          this.characters = this.characters.concat(data);
           this.totalCharacters = response?.data?.total
-        } else this.characters = []  
       }).finally(() => {
           this.loading = false
           this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
-        });
+        })
     },
 
     appendNextPage() {
       this.filters.offset += 20;
-      Character.list(this.filters).then((response) => {
-        const data = response.code === 200 ? response?.data?.results : [];
-        this.characters = this.characters.concat(data);
-        this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
-      });
+      this.fetchData()
     },
+
     debounceSearch: _.debounce(function (e) {
       this.filters.offset = 0;
-      this.loading = true
         if (e !== "") {
           this.filters.nameStartsWith = e;
-          this.fetchData();
+          this.fetchData()
         } else {
           delete this.filters["nameStartsWith"];
-          this.fetchData();
+          this.fetchData()
         }
     },500),    
   },
