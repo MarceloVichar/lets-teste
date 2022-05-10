@@ -24,15 +24,18 @@ export default {
       isLastPage: true,
       loading: true,
       filters: {
+        nameStartsWith: undefined,
         offset: 0,
         limit: 20,
         orderBy: "name",
       },
     };
   },
+  
   async fetch() {
       if(this.filters.offset === 0) { this.loading = true }
-      await(Character.list(this.filters).then((response) => {
+      await(Character.list(this.filters)
+      .then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
         if(this.filters.offset === 0) { this.characters = [] }
         this.characters = this.characters.concat(data);
@@ -42,22 +45,24 @@ export default {
           this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
         }))
     },
-  methods: {
 
+  watch: {
+    filters: {
+      deep: true,
+      handler() {
+        this.$fetch()
+      }
+    }
+  },
+
+  methods: {
     appendNextPage() {
       this.filters.offset += 20;
-      this.$fetch()
     },
 
     debounceSearch: _.debounce(function (e) {
       this.filters.offset = 0;
-        if (e !== "") {
-          this.filters.nameStartsWith = e;
-          this.$fetch()
-        } else {
-          delete this.filters["nameStartsWith"];
-          this.$fetch()
-        }
+      this.filters.nameStartsWith = e || undefined
     },500),    
   },
 };
