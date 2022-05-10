@@ -7,6 +7,10 @@
     <p v-for="item in characterInfos.comics.items" :key="item.id">
       {{ item.name }}
     </p>
+    <div v-for="comic in comics" :key="comic.id">
+    <a :href="`${comic.urls[0].url}`" target="_blank"><p>{{comic.title}}</p></a>
+      
+    </div>
   </div>
   <div
     v-else
@@ -17,8 +21,30 @@
 </template>
 
 <script>
+import Character from "@/services/api";
+
 export default {
   name: "ComicsCharacterInfos",
   props: ["characterInfos"],
+  data() { return {comics: []}
+    
+  },
+  mounted() {
+    this.fetchData()
+  },
+  methods: {
+    async fetchData() {
+      const id = this.$route.params?.id
+      console.log(id);
+      await Character.content(id, "comics").
+        then((res) => {
+          this.comics = res.data?.data?.results
+          console.log(this.comics);
+        })
+        .catch(() => {console.log("deu erro");})
+    }
+  },
+  
 };
+
 </script>

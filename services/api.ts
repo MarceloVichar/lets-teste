@@ -19,6 +19,9 @@ export default {
 },
     get(id: string) {
         return http.get(`characters/${id}`)
+    },
+    content(id: string, content: string) {
+        return http.get(`characters/${id}/${content}`)
     }
 }
 //const apiKey = '198de2a64847913fc77d58fd589a08b4';

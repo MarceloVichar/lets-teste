@@ -16,7 +16,6 @@ export default {
     try {
         const result = await Character.get(params.id)
         const [character] = result.data?.data?.results
-        console.log(character)
         return { character }  
     } catch (err) {
         console.log(err)
