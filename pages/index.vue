@@ -45,7 +45,7 @@ export default {
           this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
         }))
     },
-
+    
   watch: {
     filters: {
       deep: true,
