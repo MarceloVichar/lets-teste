@@ -3,9 +3,21 @@
     <div class="flex flex-col gap-2">
       <HeaderCharacterInfos :character-infos="characterInfos" />
       <DescriptionCharacterInfos :character-infos="characterInfos" />
-      <ListsContainer :infos="comics" :nameInfo="'Comics'" />
-      <lists-container :infos="series" :nameInfo="'Series'" />
-      <lists-container :infos="events" :nameInfo="'Events'" />
+      <ListsContainer
+        :infos="comics"
+        :nameInfo="'Comics'"
+        :loading="loadingComics"
+      />
+      <lists-container
+        :infos="series"
+        :nameInfo="'Series'"
+        :loading="loadingSeries"
+      />
+      <lists-container
+        :infos="events"
+        :nameInfo="'Events'"
+        :loading="loadingEvents"
+      />
     </div>
   </div>
 </template>
@@ -29,6 +41,9 @@ export default {
       comics: [],
       series: [],
       events: [],
+      loadingComics: true,
+      loadingSeries: true,
+      loadingEvents: true,
     };
   },
 
@@ -40,6 +55,9 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        this.loadingComics = false;
       });
 
     await Character.content(id, "series")
@@ -48,6 +66,9 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        this.loadingSeries = false;
       });
 
     await Character.content(id, "events")
@@ -56,6 +77,9 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        this.loadingEvents = false;
       });
   },
 };
