@@ -49,34 +49,25 @@ export default {
 
   async fetch() {
     const id = this.$route.params?.id;
-    await Character.content(id, "comics")
+    await Character.getComics(id)
       .then((res) => {
         this.comics = res.data?.data?.results;
-      })
-      .catch((err) => {
-        console.log(err);
       })
       .finally(() => {
         this.loadingComics = false;
       });
 
-    await Character.content(id, "series")
+    await Character.getSeries(id)
       .then((res) => {
         this.series = res.data?.data?.results;
-      })
-      .catch((err) => {
-        console.log(err);
       })
       .finally(() => {
         this.loadingSeries = false;
       });
 
-    await Character.content(id, "events")
+    await Character.getEvents(id)
       .then((res) => {
         this.events = res.data?.data?.results;
-      })
-      .catch((err) => {
-        console.log(err);
       })
       .finally(() => {
         this.loadingEvents = false;

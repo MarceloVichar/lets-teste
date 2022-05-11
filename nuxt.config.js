@@ -47,8 +47,12 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: "https://gateway.marvel.com/v1/public",
+    params: {
+      apikey: '198de2a64847913fc77d58fd589a08b4',
+      ts: '1',
+      hash: 'a1e2c32a6c1f85326cc37f0fe92b63c1'
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
