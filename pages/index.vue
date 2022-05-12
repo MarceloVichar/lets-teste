@@ -12,11 +12,11 @@
 
 <script>
 import Character from "@/services/api.ts";
-import CardList from '@/components/dashboard/CardList.vue'
-import _ from 'lodash'
+import CardList from "@/components/dashboard/CardList.vue";
+import _ from "lodash";
 
 export default {
-  components: {CardList},
+  components: { CardList },
   data() {
     return {
       characters: [],
@@ -31,28 +31,34 @@ export default {
       },
     };
   },
-  
+
   async fetch() {
-      if(this.filters.offset === 0) { this.loading = true }
-      await(Character.list(this.filters)
+    if (this.filters.offset === 0) {
+      this.loading = true;
+    }
+    await Character.list(this.filters)
       .then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
-        if(this.filters.offset === 0) { this.characters = [] }
+        if (this.filters.offset === 0) {
+          this.characters = [];
+        }
         this.characters = this.characters.concat(data);
-        this.totalCharacters = response?.data?.total  
-      }).finally(() => {
-          this.loading = false
-          this.isLastPage = this.filters.offset + this.filters.limit >= this.totalCharacters
-        }))
-    },
-    
+        this.totalCharacters = response?.data?.total;
+      })
+      .finally(() => {
+        this.loading = false;
+        this.isLastPage =
+          this.filters.offset + this.filters.limit >= this.totalCharacters;
+      });
+  },
+
   watch: {
     filters: {
       deep: true,
       handler() {
-        this.$fetch()
-      }
-    }
+        this.$fetch();
+      },
+    },
   },
 
   methods: {
@@ -62,8 +68,8 @@ export default {
 
     debounceSearch: _.debounce(function (e) {
       this.filters.offset = 0;
-      this.filters.nameStartsWith = e || undefined
-    },500),    
+      this.filters.nameStartsWith = e || undefined;
+    }, 500),
   },
 };
 </script>
