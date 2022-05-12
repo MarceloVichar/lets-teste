@@ -23,23 +23,21 @@ export default {
       totalCharacters: 0,
       isLastPage: true,
       loading: true,
-      filters: {
-        nameStartsWith: undefined,
-        offset: 0,
-        limit: 20,
-        orderBy: "name",
-      },
     };
   },
 
   async fetch() {
-    if (this.filters.offset === 0) {
+    this.$route.params.limit = 20;
+    if ((this.$route.query.query !== null) & (this.$route.query.query !== "")) {
+      this.$route.params.nameStartsWith = this.$route.query.query;
+    }
+    if (this.$route.params.offset === 0) {
       this.loading = true;
     }
-    await Character.list(this.filters)
+    await Character.list(this.$route.params)
       .then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
-        if (this.filters.offset === 0) {
+        if (this.$route.params.offset === 0) {
           this.characters = [];
         }
         this.characters = this.characters.concat(data);
@@ -48,27 +46,21 @@ export default {
       .finally(() => {
         this.loading = false;
         this.isLastPage =
-          this.filters.offset + this.filters.limit >= this.totalCharacters;
+          this.$route.params.offset + this.$route.params.limit >=
+          this.totalCharacters;
       });
-  },
-
-  watch: {
-    filters: {
-      deep: true,
-      handler() {
-        this.$fetch();
-      },
-    },
   },
 
   methods: {
     appendNextPage() {
-      this.filters.offset += 20;
+      this.$route.params.offset += 20;
+      this.$fetch();
     },
 
     debounceSearch: _.debounce(function (e) {
-      this.filters.offset = 0;
-      this.filters.nameStartsWith = e || undefined;
+      this.$route.params.offset = 0;
+      this.$route.params.nameStartsWith = e || undefined;
+      this.$fetch();
     }, 500),
   },
 };

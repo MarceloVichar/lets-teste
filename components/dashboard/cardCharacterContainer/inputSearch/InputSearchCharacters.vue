@@ -17,22 +17,22 @@ export default {
   name: "InputSearchCharacters",
   data() {
     return {
-      query: ''
-    }
+      query: "",
+    };
   },
   watch: {
     query(payload) {
-      this.$emit('onSearch', payload)
-      this.$router.replace({ query: { query: payload } }).catch(err => {})
-    }
+      this.$emit("onSearch", payload);
+      this.$router.replace({ query: { query: payload } }).catch((err) => {});
+    },
   },
   mounted() {
-    this.setParamsUrl()
+    this.setParamsUrl();
   },
   methods: {
     setParamsUrl() {
-      this.query = this.$route.query?.query
-    }
-  }
+      this.query = this.$route.query?.query;
+    },
+  },
 };
 </script>

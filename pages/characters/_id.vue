@@ -6,7 +6,7 @@
 
 <script>
 import Character from "@/services/api";
-import CharacterInfosContainer from '@/components/character/CharacterInfosContainer.vue'
+import CharacterInfosContainer from "@/components/character/CharacterInfosContainer.vue";
 
 export default {
   components: { CharacterInfosContainer },
@@ -14,13 +14,12 @@ export default {
 
   async asyncData({ params }) {
     try {
-        const result = await Character.get(params.id)
-        const [character] = result.data?.data?.results
-        return { character }  
+      const result = await Character.get(params.id);
+      const [character] = result.data?.data?.results;
+      return { character };
     } catch (err) {
-        console.log(err)
-        return { character: {}}
+      return { character: {} };
     }
-  }
+  },
 };
 </script>

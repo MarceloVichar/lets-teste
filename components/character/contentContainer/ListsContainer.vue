@@ -24,12 +24,12 @@
           :center="true"
           class="flex gap-2"
         >
-          <slide v-for="info in infos" :key="info.id" class="w-125 h-200 p-2">
+          <slide v-for="info in infos" :key="info.id" class="w-auto h-auto p-2">
             <a :href="`${info.urls[0].url}`" target="_blank">
               <img
                 :src="info.thumbnail.path + '.' + info.thumbnail.extension"
                 alt="info"
-                class="w-full h-full rounded-lg hover:opacity-70"
+                class="w-auto h-full rounded-lg hover:opacity-70"
               />
             </a>
           </slide>
