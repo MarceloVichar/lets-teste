@@ -3,7 +3,7 @@
     <CardList
       :isLastPage="isLastPage"
       :loading="loading"
-      :characters-list="characters"
+      :characters="characters"
       @onLoadMore="appendNextPage"
       @onSearch="debounceSearch"
     />
@@ -25,21 +25,20 @@ export default {
       loading: true,
       filters: {
         nameStartsWith: undefined,
-        offset: 0,
-        limit: 20,
-        orderBy: "name",
+        offset: "0",
+        limit: "20",
       },
     };
   },
 
   async fetch() {
-    if (this.filters.offset === 0) {
+    if (this.$route.query.offset == "0") {
       this.loading = true;
     }
-    await Character.list(this.filters)
+    await Character.list(this.$route.query)
       .then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
-        if (this.filters.offset === 0) {
+        if (this.$route.query.offset == "0" || !this.$route.query.offset) {
           this.characters = [];
         }
         this.characters = this.characters.concat(data);
@@ -48,27 +47,34 @@ export default {
       .finally(() => {
         this.loading = false;
         this.isLastPage =
-          this.filters.offset + this.filters.limit >= this.totalCharacters;
+          parseInt(this.$route.query.offset) +
+            parseInt(this.$route.query.limit) >=
+          this.totalCharacters;
       });
   },
-
   watch: {
-    filters: {
-      deep: true,
-      handler() {
+    "$route.query"(to) {
+      this.filters = {
+        nameStartsWith: to?.nameStartsWith,
+        offset: to?.offset,
+        limit: to?.limit,
+      };
+      if (this.$route.path == "/") {
         this.$fetch();
-      },
+      }
     },
   },
 
   methods: {
     appendNextPage() {
-      this.filters.offset += 20;
+      this.filters.offset = parseInt(this.filters.offset) + 20;
+      this.$router.replace({ query: this.filters }).catch((err) => {});
     },
 
-    debounceSearch: _.debounce(function (e) {
+    debounceSearch: _.debounce(function (payload) {
+      this.filters.nameStartsWith = payload || undefined;
       this.filters.offset = 0;
-      this.filters.nameStartsWith = e || undefined;
+      this.$router.replace({ query: this.filters }).catch((err) => {});
     }, 500),
   },
 };
