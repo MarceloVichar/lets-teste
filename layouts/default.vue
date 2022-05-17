@@ -1,12 +1,15 @@
 <template>
   <main class="flex flex-col items-center gap-12 min-h-screen bg-red-750">
     <HeaderContainer />
-    <Nuxt />
+    <Nuxt keep-alive />
   </main>
 </template>
 
 <script>
+import HeaderContainer from '@/components/headerContainer/HeaderContainer.vue'
+
 export default {
+  components: { HeaderContainer },
   head() {
     return {
       link: [

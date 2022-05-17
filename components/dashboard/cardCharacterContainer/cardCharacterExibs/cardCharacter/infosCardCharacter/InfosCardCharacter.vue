@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 w-full">
     <div>
       <img
         :src="character.thumbnail.path + '.' + character.thumbnail.extension"

@@ -19,6 +19,15 @@ export default {
 },
     get(id: string) {
         return http.get(`characters/${id}`)
-    }
+    },
+    getComics(id: string) {
+        return http.get(`characters/${id}/comics`)
+    },
+    getSeries(id: string) {
+        return http.get(`characters/${id}/series`)
+    },
+    getEvents(id: string) {
+        return http.get(`characters/${id}/events`)
+    },
 }
 //const apiKey = '198de2a64847913fc77d58fd589a08b4';

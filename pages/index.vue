@@ -1,8 +1,9 @@
 <template>
-  <div class="w-11/12 sm:w-3/4">
+  <div class="w-fit container">
     <CardList
+      :isLastPage="isLastPage"
       :loading="loading"
-      :characters-list="characters"
+      :characters="characters"
       @onLoadMore="appendNextPage"
       @onSearch="debounceSearch"
     />
@@ -10,60 +11,71 @@
 </template>
 
 <script>
-import Character from "../services/api.ts";
+import Character from "@/services/api.ts";
+import CardList from "@/components/dashboard/CardList.vue";
+import _ from "lodash";
 
 export default {
+  components: { CardList },
   data() {
     return {
-      loading: false,
       characters: [],
+      totalCharacters: 0,
+      isLastPage: true,
+      loading: true,
       filters: {
-        offset: 0,
-        limit: 12,
-        orderBy: "name",
+        nameStartsWith: undefined,
+        offset: "0",
+        limit: "20",
       },
     };
   },
 
-  mounted() {
-    this.fetchData();
-    this.debouncePage();
+  async fetch() {
+    if (this.$route.query.offset == "0") {
+      this.loading = true;
+    }
+    await Character.list(this.$route.query)
+      .then((response) => {
+        const data = response.code === 200 ? response?.data?.results : [];
+        if (this.$route.query.offset == "0" || !this.$route.query.offset) {
+          this.characters = [];
+        }
+        this.characters = this.characters.concat(data);
+        this.totalCharacters = response?.data?.total;
+      })
+      .finally(() => {
+        this.loading = false;
+        this.isLastPage =
+          parseInt(this.$route.query.offset) +
+            parseInt(this.$route.query.limit) >=
+          this.totalCharacters;
+      });
+  },
+  watch: {
+    "$route.query"(to) {
+      this.filters = {
+        nameStartsWith: to?.nameStartsWith,
+        offset: to?.offset,
+        limit: to?.limit,
+      };
+      if (this.$route.path == "/") {
+        this.$fetch();
+      }
+    },
   },
 
   methods: {
-    fetchData() {
-      Character.list(this.filters).then((response) => {
-        this.characters = response.code === 200 ? response?.data?.results : [];
-      });
-    },
-
-    debouncePage() {
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
-    },
-
-    debounceSearch(text) {
-      this.filters.offset = 0;
-      setTimeout(() => {
-        if (text !== "") {
-          this.filters.nameStartsWith = text;
-          this.fetchData();
-        } else {
-          delete this.filters["nameStartsWith"];
-          this.fetchData();
-        }
-      }, 300);
-    },
-
     appendNextPage() {
-      this.filters.offset += 12;
-      Character.list(this.filters).then((response) => {
-        const data = response.code === 200 ? response?.data?.results : [];
-        this.characters = this.characters.concat(data);
-      });
+      this.filters.offset = parseInt(this.filters.offset) + 20;
+      this.$router.replace({ query: this.filters }).catch((err) => {});
     },
+
+    debounceSearch: _.debounce(function (payload) {
+      this.filters.nameStartsWith = payload || undefined;
+      this.filters.offset = 0;
+      this.$router.replace({ query: this.filters }).catch((err) => {});
+    }, 500),
   },
 };
 </script>
