@@ -23,7 +23,6 @@ export default {
   watch: {
     query(payload) {
       this.$emit("onSearch", payload);
-      this.$router.replace({ query: { query: payload } }).catch((err) => {});
     },
   },
   mounted() {

@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full flex-wrap md:justify-start justify-center gap-2">
-    <div v-for="character in charactersList" v-bind:key="character.id">
+    <div v-for="character in characters" v-bind:key="character.id">
       <CardCharacter :character="character" />
     </div>
   </div>
@@ -12,6 +12,6 @@ import CardCharacter from "@/components/dashboard/cardCharacterContainer/cardCha
 export default {
   components: { CardCharacter },
   name: "CardsCharacterExibs",
-  props: ["charactersList"],
+  props: ["characters"],
 };
 </script>

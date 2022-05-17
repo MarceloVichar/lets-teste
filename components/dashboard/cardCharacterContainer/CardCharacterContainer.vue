@@ -5,18 +5,18 @@
     <InputSearchCharacters @onSearch="$emit('onSearch', $event)" />
 
     <Spinner v-if="loading" />
-    <CardsCharacterExibs v-if="!loading" :characters-list="charactersList" />
+    <CardsCharacterExibs v-if="!loading" :characters="characters" />
   </div>
 </template>
 
 <script>
-import Spinner from '@/components/spinner/Spinner.vue'
-import InputSearchCharacters from '@/components/dashboard/cardCharacterContainer/inputSearch/InputSearchCharacters.vue'
-import CardsCharacterExibs from '@/components/dashboard/cardCharacterContainer/cardCharacterExibs/CardsCharacterExibs.vue'
+import Spinner from "@/components/spinner/Spinner.vue";
+import InputSearchCharacters from "@/components/dashboard/cardCharacterContainer/inputSearch/InputSearchCharacters.vue";
+import CardsCharacterExibs from "@/components/dashboard/cardCharacterContainer/cardCharacterExibs/CardsCharacterExibs.vue";
 
 export default {
   components: { Spinner, InputSearchCharacters, CardsCharacterExibs },
   name: "CardCharacterContainer",
-  props: ["charactersList", "loading"],
+  props: ["characters", "loading"],
 };
 </script>

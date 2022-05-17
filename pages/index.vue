@@ -3,7 +3,7 @@
     <CardList
       :isLastPage="isLastPage"
       :loading="loading"
-      :characters-list="characters"
+      :characters="characters"
       @onLoadMore="appendNextPage"
       @onSearch="debounceSearch"
     />
@@ -23,21 +23,22 @@ export default {
       totalCharacters: 0,
       isLastPage: true,
       loading: true,
+      filters: {
+        nameStartsWith: undefined,
+        offset: "0",
+        limit: "20",
+      },
     };
   },
 
   async fetch() {
-    this.$route.params.limit = 20;
-    if ((this.$route.query.query !== null) & (this.$route.query.query !== "")) {
-      this.$route.params.nameStartsWith = this.$route.query.query;
-    }
-    if (this.$route.params.offset === 0) {
+    if (this.$route.query.offset == "0") {
       this.loading = true;
     }
-    await Character.list(this.$route.params)
+    await Character.list(this.$route.query)
       .then((response) => {
         const data = response.code === 200 ? response?.data?.results : [];
-        if (this.$route.params.offset === 0) {
+        if (this.$route.query.offset == "0" || !this.$route.query.offset) {
           this.characters = [];
         }
         this.characters = this.characters.concat(data);
@@ -46,21 +47,34 @@ export default {
       .finally(() => {
         this.loading = false;
         this.isLastPage =
-          this.$route.params.offset + this.$route.params.limit >=
+          parseInt(this.$route.query.offset) +
+            parseInt(this.$route.query.limit) >=
           this.totalCharacters;
       });
+  },
+  watch: {
+    "$route.query"(to) {
+      this.filters = {
+        nameStartsWith: to?.nameStartsWith,
+        offset: to?.offset,
+        limit: to?.limit,
+      };
+      if (this.$route.path == "/") {
+        this.$fetch();
+      }
+    },
   },
 
   methods: {
     appendNextPage() {
-      this.$route.params.offset += 20;
-      this.$fetch();
+      this.filters.offset = parseInt(this.filters.offset) + 20;
+      this.$router.replace({ query: this.filters }).catch((err) => {});
     },
 
-    debounceSearch: _.debounce(function (e) {
-      this.$route.params.offset = 0;
-      this.$route.params.nameStartsWith = e || undefined;
-      this.$fetch();
+    debounceSearch: _.debounce(function (payload) {
+      this.filters.nameStartsWith = payload || undefined;
+      this.filters.offset = 0;
+      this.$router.replace({ query: this.filters }).catch((err) => {});
     }, 500),
   },
 };
